@@ -2,13 +2,13 @@
 
 SELECT *
 FROM events
-WHERE price IS NULL
+WHERE price IS NULL;
 
 -- Selezionare tutte le location in ordine alfabetico (82)
 
 SELECT *
 FROM locations
-ORDER BY name ASC
+ORDER BY name ASC;
 
 -- Selezionare tutti gli eventi che costano meno di 20 euro e durano meno di 3 ore (38)
 
@@ -19,23 +19,27 @@ AND duration < '03:00:00';
 
 -- Selezionare tutti gli eventi di dicembre 2023 (25)
 
-
+SELECT *
+FROM events
+WHERE start
+LIKE "2023-12-%";
 
 -- Selezionare tutti gli eventi con una durata maggiore alle 2 ore (823)
 
+SELECT *
+FROM events
+WHERE duration >= "03:00:00";
 
+-- Selezionare tutti gli eventi, mostrando nome, data di inizio, ora di inizio, ora di fine e durata totale (1040)
 
--- Selezionare tutti gli eventi, mostrando nome, data di inizio, ora di inizio, ora di fine e
-
-
-
--- durata totale (1040)
-
-
+SELECT name, DATE(start) AS 'date_start', TIME(start) AS 'time_start', ADDTIME (TIME(start), duration) AS 'time_end', duration
+FROM events;
 
 -- Selezionare tutti gli eventi aggiunti da “Fabiano Lombardo” (id: 1202) (132)
 
-
+SELECT *
+FROM events
+WHERE user_id = 1202;
 
 -- Selezionare il numero totale di eventi per ogni fascia di prezzo (81)
 
