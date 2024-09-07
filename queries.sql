@@ -83,15 +83,32 @@ GROUP BY locations.id;
 
 -- 13. Selezionare tutti i partecipanti per l’evento “Concerto Classico Serale” (slug: concerto-classico-serale, id: 34) (30)
 
-
+SELECT users.first_name, users.last_name 
+FROM bookings
+INNER JOIN users
+ON bookings.user_id = users.id
+INNER JOIN events
+ON events.id = bookings.event_id
+WHERE events.slug = "concerto-classico-serale";
 
 -- 14. Selezionare tutti i partecipanti all’evento “Festival Jazz Estivo” (slug: festival-jazz-estivo, id: 2) specificando nome e cognome (13)
 
-
+SELECT users.first_name, users.last_name 
+FROM bookings
+INNER JOIN users
+ON bookings.user_id = users.id
+INNER JOIN events
+ON events.id = bookings.event_id
+WHERE events.slug = "festival-jazz-estivo";
 
 -- 15. Selezionare tutti gli eventi sold out (dove il totale delle prenotazioni è uguale ai biglietti totali per l’evento) (18)
 
-
+SELECT events.name, events.total_tickets, COUNT(bookings.event_id) AS 'bookings'
+FROM events
+INNER JOIN bookings
+WHERE events.id = bookings.event_id
+GROUP BY events.name
+HAVING events.total_tickets = bookings
 
 -- 16. Selezionare tutte le location in ordine per chi ha ospitato più eventi (82)
 
