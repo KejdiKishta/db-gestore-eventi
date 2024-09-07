@@ -108,14 +108,34 @@ FROM events
 INNER JOIN bookings
 WHERE events.id = bookings.event_id
 GROUP BY events.name
-HAVING events.total_tickets = bookings
+HAVING events.total_tickets = bookings;
 
 -- 16. Selezionare tutte le location in ordine per chi ha ospitato più eventi (82)
 
-
+SELECT locations.name, COUNT(events.location_id) AS 'num_events'
+FROM locations
+INNER JOIN events
+ON locations.id = events.location_id
+GROUP BY locations.name  
+ORDER BY num_events DESC;
 
 -- 17. Selezionare tutti gli utenti che si sono prenotati a più di 70 eventi (74)
 
-
+SELECT users.first_name, users.last_name, COUNT(bookings.id) AS 'total_bookings' 
+FROM users
+INNER JOIN bookings
+ON users.id = bookings.user_id
+GROUP BY users.id
+HAVING COUNT(bookings.id) > 70  
+ORDER BY total_bookings DESC;
 
 -- 18. Selezionare tutti gli eventi, mostrando il nome dell’evento, il nome della location, il numero di prenotazioni e il totale di biglietti ancora disponibili per l’evento (1040)
+
+SELECT events.name AS 'event', locations.name AS 'location', events.total_tickets AS 'total_tickets', COUNT(bookings.id) AS 'bookings', events.total_tickets - COUNT(bookings.id) AS 'remaining_tickets'
+FROM events
+INNER JOIN locations
+ON events.location_id = locations.id
+INNER JOIN bookings
+ON bookings.event_id = events.id
+GROUP BY event  
+ORDER BY remaining_tickets DESC;
