@@ -57,15 +57,29 @@ OR role_id = 2;
 
 -- 10. Selezionare tutti i concerti (eventi con il tag “concerti”) (72)
 
-
+SELECT *
+FROM events
+INNER JOIN event_tag
+ON events.id = event_tag.tag_id
+WHERE event_tag.tag_id = 1;
 
 -- 11. Selezionare tutti i tag e il prezzo medio degli eventi a loro collegati (11)
 
-
+SELECT tags.name, COUNT(events.id) AS 'num_eventi', AVG(events.price) AS 'costo_medio'
+FROM tags
+INNER JOIN event_tag
+ON tags.id = event_tag.tag_id
+INNER JOIN events
+ON event_tag.event_id = events.id
+GROUP BY tags.name;
 
 -- 12. Selezionare tutte le location e mostrare quanti eventi si sono tenute in ognuna di esse (82)
 
-
+SELECT locations.id, locations.name, COUNT(events.id) AS 'num_events'
+FROM locations
+INNER JOIN events
+ON locations.id = events.location_id
+GROUP BY locations.id;
 
 -- 13. Selezionare tutti i partecipanti per l’evento “Concerto Classico Serale” (slug: concerto-classico-serale, id: 34) (30)
 
